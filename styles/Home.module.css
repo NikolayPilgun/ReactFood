@@ -4,3 +4,6 @@
 .main h1 {
 	font-size: 40px;
 }
+.container {
+	padding: 1rem 2rem;
+}
