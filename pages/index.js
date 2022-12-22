@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Hero from "../components/Hero";
 import Layout from "../components/Layout";
+import Services from "../components/Services";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
 				<div className={styles.container}>
 					<main className={styles.main}>
 						<Hero />
+						<Services />
 					</main>
 				</div>
 			</Layout>
