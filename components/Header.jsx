@@ -6,9 +6,6 @@ import { useStore } from "../store/store";
 import styles from "../styles/Header.module.css";
 
 export default function Header() {
-	// state in terminal
-	const state = useStore((state) => state);
-
 	const items = useStore((state) => state.cart.pizzas.length);
 	return (
 		<header className={styles.header}>

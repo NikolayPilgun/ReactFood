@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Layout from "../components/Layout";
+import OrderModal from "../components/OrderModal";
 import { urlFor } from "../lib/client";
 import { useStore } from "../store/store";
 import styles from "../styles/Cart.module.css";
@@ -8,6 +10,7 @@ import styles from "../styles/Cart.module.css";
 export default function Cart() {
 	const CartData = useStore((state) => state.cart);
 	const removePizza = useStore((state) => state.removePizza);
+	const [paymentMethod, setPaymentMethod] = useState(null);
 
 	const handleRemove = (i) => {
 		removePizza(i);
@@ -15,7 +18,12 @@ export default function Cart() {
 	};
 	const total = () =>
 		CartData.pizzas.reduce((a, b) => a + b.quantity * b.price, 0);
-	console.log(total());
+
+	const handelOnDelivery = () => {
+		setPaymentMethod(0);
+		typeof window !== "undefined" && localStorage.setItem("total", total());
+	};
+
 	return (
 		<Layout>
 			<div className={styles.cart}>
@@ -86,12 +94,20 @@ export default function Cart() {
 						</div>
 					</div>
 					<div className={styles.buttons}>
-						<button className="btn">Pay on Delivery</button>
+						<button onClick={handelOnDelivery} className="btn">
+							Pay on Delivery
+						</button>
 						<button className="btn">Pay Now</button>
 					</div>
 				</div>
 			</div>
 			<Toaster />
+			{/* Modal */}
+			<OrderModal
+				opened={paymentMethod === 0}
+				setOpened={setPaymentMethod}
+				paymentMethod={paymentMethod}
+			/>
 		</Layout>
 	);
 }
