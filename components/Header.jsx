@@ -1,12 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { BiShoppingBag } from "react-icons/bi";
+import { TbFileDollar } from "react-icons/tb";
 import Logo from "../assets/Logo.png";
 import { useStore } from "../store/store";
 import styles from "../styles/Header.module.css";
 
 export default function Header() {
+	const [order, setOrder] = useState("");
 	const items = useStore((state) => state.cart.pizzas.length);
+
+	useEffect(() => {
+		setOrder(localStorage.getItem("order"));
+	}, []);
 	return (
 		<header className={styles.header}>
 			{/* logo side */}
@@ -17,7 +24,9 @@ export default function Header() {
 			{/* menu side */}
 			<nav className={styles.nav}>
 				<ul className={styles.menu}>
-					<li>Home</li>
+					<li>
+						<Link href="../">Home</Link>
+					</li>
 					<li>Menu</li>
 					<li>Contact</li>
 				</ul>
@@ -30,6 +39,15 @@ export default function Header() {
 						<div className={styles.badge}>{items}</div>
 					</div>
 				</Link>
+
+				{order && (
+					<Link href={`/order/${order}`}>
+						<div className={styles.order}>
+							<TbFileDollar size={35} color="#2E2E2E" />
+							{order != "" && <div className={styles.badge}>1</div>}
+						</div>
+					</Link>
+				)}
 			</div>
 		</header>
 	);
